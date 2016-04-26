@@ -1,0 +1,36 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages (library(ggplot2))
+suppressPackageStartupMessages (library(reshape2))
+## suppressPackageStartupMessages (library(doBy))
+
+source ("averageFlow-style.R")
+
+
+
+# this is used to draw ndn with entropy routing
+entropyRouting.data = read.table ('rate_result.txt', header = TRUE, sep = "\t")
+entropyRouting.data$Type = factor (entropyRouting.data$Type)
+
+
+
+## group =Type is used to group the line by Type
+
+g <- ggplot (data=entropyRouting.data, aes(x=Time, y=SendNum, group =Type , shape = Type,color = Type,linetype = Type)) +
+
+  geom_point(size=2)+
+  geom_line(size=0.4)+
+  scale_color_manual (values = c('blue2', 'red4', 'black')) +
+
+  scale_x_continuous(limits=c(1, 50),breaks=seq(1,50, 5))+
+  xlab ("Time [second]") +
+  ylab ("Average Data Flow [Kilobytes/s]") +
+
+  theme_custom ()
+
+
+
+cat ("Writing graph to [averageRate.pdf]\n")
+pdf (file = "averageRate.pdf",width=9,height=6)
+g
+x = dev.off ();

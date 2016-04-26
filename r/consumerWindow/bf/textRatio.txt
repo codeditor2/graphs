@@ -1,0 +1,4 @@
+Type Ratio
+BestRoute 0.211458
+MDBF3 0.230490
+EBF3 0.186813

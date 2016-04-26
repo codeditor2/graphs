@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+import string 
+
+
+f_out = open ("averageInData-100.txt" , "w")
+
+f_out.write ("Type\tTime\tAverageInData\n")
+
+runs = range(100,101)
+for run in runs:
+
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-bestRouting-%d-rate-trace.log" % run , "r")
+    inData = 0.0
+    for line in f_in:
+        a=line.split('\t')
+        if a[4] == "InData" and a[1] =='client' and a[2]=="0": 
+            time = string.atoi(a[0])
+            inData += string.atof(a[7])
+            f_out.write("BestRoute\t%d\t%f\n"%(time,inData))
+    
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-optimalRouting-%d-rate-trace.log" % run , "r")
+    inData = 0.0
+    for line in f_in:
+        a=line.split('\t')
+        if a[4] == "InData" and a[1] =='client' and a[2]=="0": 
+            time = string.atoi(a[0])
+            inData += string.atof(a[7])
+            f_out.write("PI-based\t%d\t%f\n"%(time,inData))
+    
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-deviationRouting-%d-rate-trace.log" % run , "r")
+    inData = 0.0
+    for line in f_in:
+        a=line.split('\t')
+        if a[4] == "InData" and a[1] =='client' and a[2]=="0": 
+            time = string.atoi(a[0])
+            inData += string.atof(a[7])
+            f_out.write("MDPF-2\t%d\t%f\n"%(time,inData))
+    
+    #f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-deviation2BestRouting-%d-rate-trace.log" % run , "r")
+    #inData = 0.0
+    #for line in f_in:
+        #a=line.split('\t')
+        #if a[4] == "InData" and a[1] =='client' and a[2]=="0": 
+            #time = string.atoi(a[0])
+            #inData += string.atof(a[7])
+            #f_out.write("MDBF-2\t%d\t%f\n"%(time,inData))
+   
+f_out.close

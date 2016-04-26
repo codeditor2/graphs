@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+import string 
+
+
+f_out = open ("averageDelay.txt" , "w")
+
+f_out.write ("Type\tFrequency\tAverageDelay\n")
+
+runs = range(1,50)
+for run in runs:
+
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-bestRouting-%d-app-delays-trace.log" % run , "r")
+    delay_sum=0
+    all_count=0
+    for line in f_in:
+        a=line.split('\t')
+        if a[1]=='client' and a[4]=='FullDelay' and all_count <15000:
+	    delay_sum += string.atof(a[5])
+            all_count += 1
+    
+    print "Type= bestRouting:"
+    print "packet count=%d " % all_count
+    print "delay sum=%f\n" % delay_sum
+    print "AverageDelay=%f\n" % (delay_sum/(all_count+0.0))
+    f_out.write("BestRoute\t%d\t%f\n" % (run*100, ((1000*delay_sum)/(all_count+0.0))))
+    
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-optimalRouting-%d-app-delays-trace.log" % run , "r")
+    delay_sum=0
+    all_count=0
+    for line in f_in:
+        a=line.split('\t')
+        if a[1]=='client' and a[4]=='FullDelay' and all_count <15000:
+            delay_sum += string.atof(a[5])
+            all_count += 1
+    
+    print "Type= optimalRouting:"
+    print "packet count=%d " % all_count
+    print "delay sum=%f\n" % delay_sum
+    print "AverageDelay=%f\n" % (delay_sum/(all_count+0.0))
+    f_out.write("OptimalRoute\t%d\t%f\n" % (run*100, ((1000*delay_sum)/(all_count+0.0))))
+    
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-deviationRouting-%d-app-delays-trace.log" % run , "r")
+    delay_sum=0
+    all_count=0
+    for line in f_in:
+        a=line.split('\t')
+        if a[1]=='client' and a[4]=='FullDelay' and all_count <15000:
+	    delay_sum += string.atof(a[5])
+            all_count += 1
+    
+    print "Type= deviationRouting:"
+    print "packet count=%d " % all_count
+    print "delay sum=%f\n" % delay_sum
+    print "AverageDelay=%f\n" % (delay_sum/(all_count+0.0))
+    f_out.write("DeviationRoute\t%d\t%f\n" % (run*100, ((1000*delay_sum)/(all_count+0.0))))
+    
+    f_in = open ("/home/rudy/ns-dev/experimentResult/results/congestion-zoom-ndn-deviationRouting3-%d-app-delays-trace.log" % run , "r")
+    delay_sum=0
+    all_count=0
+    for line in f_in:
+        a=line.split('\t')
+        if a[1]=='client' and a[4]=='FullDelay' and all_count <15000:
+	    delay_sum += string.atof(a[5])
+            all_count += 1
+    
+    print "Type= deviationRouting3:"
+    print "packet count=%d " % all_count
+    print "delay sum=%f\n" % delay_sum
+    print "AverageDelay=%f\n" % (delay_sum/(all_count+0.0))
+    f_out.write("DeviationRoute3\t%d\t%f\n" % (run*100, ((1000*delay_sum)/(all_count+0.0))))
+   
+f_out.close
